@@ -1,0 +1,47 @@
+name: SonarQube scan
+
+env:
+  tags: 'github,actions,github-actions,dotnet'
+  projectKey: 'demo:github-actions-dotnet'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  # schedule:
+  #  - cron: '17 0 * * 4'
+jobs:
+  #----------------- .Net scan --------------------
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Cache Scanner for .Net
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/scanner
+          key: ${{ runner.os }}-dotnet-scan
+          restore-keys: ${{ runner.os }}-dotnet-scan
+      - name: Install Scanner for .Net
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          dotnet tool update dotnet-sonarscanner --global
+      - name: Build and analyze .Net component
+        working-directory: ./comp-dotnet
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        shell: pwsh
+        run: |
+          dotnet-sonarscanner begin /k:"${{env.projectKey}}" /n:"GitHub / Actions / .Net Core" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          dotnet build
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Set tags
+        run: |
+          # Set project tags on the fly
+          curl -X POST -u ${{ secrets.SONAR_TOKEN }}: "${{ secrets.SONAR_HOST_URL }}/api/project_tags/set?project=${{env.projectKey}}&tags=${{env.tags}}"
