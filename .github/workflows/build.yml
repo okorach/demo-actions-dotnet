@@ -26,8 +26,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
-          key: ${{ runner.os }}-dotnet-scan
-          restore-keys: ${{ runner.os }}-dotnet-scan
+          key: ${{ runner.os }}-dotnet-scanner-2022
+          restore-keys: ${{ runner.os }}-dotnet-scanner-2022
       - name: Install Scanner for .Net
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: pwsh
