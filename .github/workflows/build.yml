@@ -11,6 +11,7 @@ on:
     types: [opened, synchronize, reopened]
   # schedule:
   #  - cron: '17 0 * * 4'
+
 jobs:
   #----------------- .Net scan --------------------
   scan:
