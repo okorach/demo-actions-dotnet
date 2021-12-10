@@ -11,6 +11,7 @@ on:
     types: [opened, synchronize, reopened]
   # schedule:
   #  - cron: '17 0 * * 4'
+
 jobs:
   #----------------- .Net scan --------------------
   scan:
@@ -24,11 +25,11 @@ jobs:
         id: cache-sonar-scanner
         uses: actions/cache@v1
         with:
-          path: ~/.sonar/scanner
-          key: ${{ runner.os }}-dotnet-scan
-          restore-keys: ${{ runner.os }}-dotnet-scan
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-dotnet-scanner-2022
+          restore-keys: ${{ runner.os }}-dotnet-scanner-2022
       - name: Install Scanner for .Net
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        # if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
           dotnet tool update dotnet-sonarscanner --global
