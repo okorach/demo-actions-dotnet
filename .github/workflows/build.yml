@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-dotnet-scanner-2022
           restore-keys: ${{ runner.os }}-dotnet-scanner-2022
       - name: Install Scanner for .Net
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        # if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
           dotnet tool update dotnet-sonarscanner --global
