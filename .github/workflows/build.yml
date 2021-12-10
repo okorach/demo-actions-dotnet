@@ -25,7 +25,7 @@ jobs:
         id: cache-sonar-scanner
         uses: actions/cache@v1
         with:
-          path: ~/.sonar/scanner
+          path: ~/.sonar/cache
           key: ${{ runner.os }}-dotnet-scan
           restore-keys: ${{ runner.os }}-dotnet-scan
       - name: Install Scanner for .Net
