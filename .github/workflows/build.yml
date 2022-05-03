@@ -34,7 +34,7 @@ jobs:
         run: |
           dotnet tool update dotnet-sonarscanner --global
       - name: Build and analyze .Net component
-        working-directory: ./comp-dotnet
+        working-directory: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         shell: pwsh
