@@ -1,8 +1,6 @@
 .scannerwork/
 build/
-.coverage
-**/__pycache__/
 .sonarqube/
-comp-dotnet/project/obj/
-comp-dotnet/project/bin/
+project/obj/
+project/bin/
 **/*.log
